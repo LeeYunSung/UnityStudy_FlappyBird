@@ -3,41 +3,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColumnPool : MonoBehaviour
-{
+public class ColumnPool : MonoBehaviour{
     [SerializeField] private int columnPoolSize = 5;
-    [SerializeField] private GameObject columnPrefabs;
-    [SerializeField] private GameObject[] columns;
+    [SerializeField] private Column columnPrefabs;
 
     private const float COLUMN_MIN = -2f;
     private const float COLUMN_MAX = 2f;
-
-    private float spawnXPosition;
-    private float spawnYPosition;
-
-    private int currentColumn = 0;
-
-    [SerializeField] private GameObject columnsss;
-
+    const float XPOSITION = 20f;
+ 
+    public Queue<Column> pooledObjects;
+    
     void Start(){
-        columns = new GameObject[columnPoolSize];
+        pooledObjects = new Queue<Column>();
+        float spawnXPosition = 0;
         for (int i = 0; i < columnPoolSize; i++){
-            RandomY();
-            columns[i] = (GameObject)Instantiate(columnPrefabs, new Vector2(spawnXPosition,spawnYPosition), Quaternion.identity);
-            columns[i].transform.SetParent(columnsss.transform);
+            Column pooledObject = SpawnColumn();
             spawnXPosition += 5f;
+            pooledObject.transform.position = new Vector2(spawnXPosition, pooledObject.transform.position.y);
         }
     }
-    public void Pooling(){
-        RandomY();
-        columns[currentColumn].transform.position = new Vector2(5f, spawnYPosition);
-        currentColumn++;
-        if (currentColumn >= columnPoolSize)
-        {
-            currentColumn = 0;
-        }
+    public Column SpawnColumn(){
+        Column pooledObject;
+        pooledObject = (pooledObjects.Count > 0) ? pooledObjects.Dequeue() : MakeColumn();
+
+        float spawnYPosition = UnityEngine.Random.Range(COLUMN_MIN, COLUMN_MAX);
+        pooledObject.transform.position = new Vector2(XPOSITION, spawnYPosition);
+
+        return pooledObject;
     }
-    public void RandomY(){
-        spawnYPosition = UnityEngine.Random.Range(COLUMN_MIN, COLUMN_MAX);
+    public void Despawn(Column column){
+        pooledObjects.Enqueue(column);
+    }
+    public Column MakeColumn(){
+        return Instantiate(columnPrefabs);
     }
 }

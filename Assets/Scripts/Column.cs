@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Column : MonoBehaviour
-{
-    private void OnTriggerEnter2D(Collider2D collision){
+public class Column : MonoBehaviour{
+    private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.GetComponent<Bird>() != null){
             GameControl.Instance.BirdScored();
-            StartCoroutine(DoPooling());
+            StartCoroutine(Exchange());
         }
     }
-    IEnumerator DoPooling(){
-        yield return new WaitForSeconds(10f);
+    IEnumerator Exchange(){
         if (GameControl.Instance.gameOver != true){
-            GameControl.Instance.GetComponent<ColumnPool>().Pooling();
+            GameControl.Instance.GetComponent<ColumnPool>().SpawnColumn();
+            yield return new WaitForSeconds(5f);
+            GameControl.Instance.GetComponent<ColumnPool>().Despawn(this);
         }
     }
 }

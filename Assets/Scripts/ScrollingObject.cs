@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//Observer 관찰자
 public class ScrollingObject : MonoBehaviour
 {
     private Rigidbody2D rb2d;
