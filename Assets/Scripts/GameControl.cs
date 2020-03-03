@@ -5,60 +5,85 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-//Subject 주체
 public class GameControl : MonoBehaviour
 {
     public static GameControl Instance { private set; get; }
-    public GameObject gameOverText;
-    public Text scoreText;
-    public bool gameOver = false;
-    public float scrollSpeed = -1.5f;
 
-    private int score = 0;
+    [SerializeField] private Text scoreText;
+    [SerializeField] private Text startText;
+    [SerializeField] private Text pauseText;
     [SerializeField] private Bird bird;
 
+    public GameObject gameOverText;
+    public bool gameOver = true;
+    public bool isPaused = true;
+
+    public float scrollSpeed = -1.5f;
+    private int score = 0;
+    
     List<ScrollingObject> scrollingObjectList = new List<ScrollingObject>();
-    public void AddScrollingObject(ScrollingObject scrollingObject){
-        if (!scrollingObjectList.Contains(scrollingObject)){
+    public void AddScrollingObject(ScrollingObject scrollingObject) {
+        if (!scrollingObjectList.Contains(scrollingObject)) {
             scrollingObjectList.Add(scrollingObject);
         }
     }
-    public void RemoveScrollingObject(ScrollingObject scrollingObject){
-        if (scrollingObjectList.Contains(scrollingObject)){
+    public void RemoveScrollingObject(ScrollingObject scrollingObject) {
+        if (scrollingObjectList.Contains(scrollingObject)) {
             scrollingObjectList.Remove(scrollingObject);
         }
     }
-    public void NotifiyScrollingObjectList(){
-        foreach(ScrollingObject scrollingObject in scrollingObjectList){
+    public void NotifiyScrollingObjectList() {
+        foreach (ScrollingObject scrollingObject in scrollingObjectList) {
             scrollingObject.GameOver();
         }
     }
-    void Awake(){
-        if (Instance == null){
+    void Awake() {
+        Time.timeScale = 0;
+        if (Instance == null) {
             Instance = this;
         }
-        else if (Instance != this){
+        else if (Instance != this) {
             Destroy(gameObject);
         }
     }
-    void Update(){
-        if (Input.GetMouseButtonDown(0)){
-            if (gameOver == true){
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    private void Start(){
+        StartCoroutine(PrintStartText(1f));
+        gameOver = false;
+        isPaused = false;
+    }
+    void Update() {
+        if (isPaused==false) {
+            var mouseInput = Input.GetMouseButtonDown(0);
+            if (mouseInput) {
+                if (gameOver == true) {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                }
+                bird.JumpBird();
             }
-            bird.JumpBird();
         }
     }
     public void BirdScored() {
-        if (gameOver){
-            return;
-        }
         score += 10;
         scoreText.text = "Score: " + score.ToString();
     }
-    public void BirdDied(){
+    public void BirdDied() {
+        pauseText.gameObject.SetActive(false);
         gameOverText.SetActive(true);
         gameOver = true;
         NotifiyScrollingObjectList();
+    }
+    IEnumerator PrintStartText(float waitTime){
+        for (int i = 3; i > 0; i--){
+            startText.text = i.ToString();
+            yield return new WaitForSecondsRealtime(waitTime);
+        }
+        startText.gameObject.SetActive(false);
+        pauseText.gameObject.SetActive(true);
+        Time.timeScale = 1;
+    }
+    public void IsPause(){
+        isPaused = !isPaused;
+        Time.timeScale = (isPaused) ? 0.0f : 1.0f;
+        pauseText.text = (!isPaused) ? "II" : "►";
     }
 }

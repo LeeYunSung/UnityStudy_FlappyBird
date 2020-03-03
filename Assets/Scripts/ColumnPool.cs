@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ColumnPool : MonoBehaviour{
-    [SerializeField] private int columnPoolSize = 5;
     [SerializeField] private Column columnPrefabs;
+    private const int columnPoolSize = 5;
 
     private const float COLUMN_MIN = -2f;
     private const float COLUMN_MAX = 2f;
