@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GameControl : MonoBehaviour
-{
+{ 
     public static GameControl Instance { private set; get; }
 
     [SerializeField] private Text scoreText;
@@ -15,12 +16,13 @@ public class GameControl : MonoBehaviour
     [SerializeField] private Bird bird;
 
     public GameObject gameOverText;
-    public bool gameOver = true;
-    public bool isPaused = true;
+    public bool gameOver;
+    public bool isPaused;
 
     public float scrollSpeed = -1.5f;
     private int score = 0;
-    
+    private const int TIME = 3;
+
     List<ScrollingObject> scrollingObjectList = new List<ScrollingObject>();
     public void AddScrollingObject(ScrollingObject scrollingObject) {
         if (!scrollingObjectList.Contains(scrollingObject)) {
@@ -38,29 +40,14 @@ public class GameControl : MonoBehaviour
         }
     }
     void Awake() {
-        Time.timeScale = 0;
         if (Instance == null) {
             Instance = this;
         }
         else if (Instance != this) {
             Destroy(gameObject);
         }
-    }
-    private void Start(){
+        Time.timeScale = 0;
         StartCoroutine(PrintStartText(1f));
-        gameOver = false;
-        isPaused = false;
-    }
-    void Update() {
-        if (isPaused==false) {
-            var mouseInput = Input.GetMouseButtonDown(0);
-            if (mouseInput) {
-                if (gameOver == true) {
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-                }
-                bird.JumpBird();
-            }
-        }
     }
     public void BirdScored() {
         score += 10;
@@ -73,17 +60,35 @@ public class GameControl : MonoBehaviour
         NotifiyScrollingObjectList();
     }
     IEnumerator PrintStartText(float waitTime){
-        for (int i = 3; i > 0; i--){
-            startText.text = i.ToString();
+        isPaused = true;
+        int time = TIME;
+        while (time>0){
+            startText.text = time.ToString();
             yield return new WaitForSecondsRealtime(waitTime);
+            time--;
         }
         startText.gameObject.SetActive(false);
         pauseText.gameObject.SetActive(true);
         Time.timeScale = 1;
+        isPaused = false;
+        gameOver = false;
+    }
+    public void BackgroundClick(){
+        if (isPaused == false && gameOver == false){
+            bird.JumpBird();
+        }
+        else if (gameOver == true){
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
     public void IsPause(){
         isPaused = !isPaused;
         Time.timeScale = (isPaused) ? 0.0f : 1.0f;
         pauseText.text = (!isPaused) ? "II" : "►";
+        if (!isPaused){
+            startText.gameObject.SetActive(true);
+            pauseText.gameObject.SetActive(false);
+            StartCoroutine(PrintStartText(1f));
+        }
     }
 }
