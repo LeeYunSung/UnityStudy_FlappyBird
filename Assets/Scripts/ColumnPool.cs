@@ -18,8 +18,8 @@ public class ColumnPool : MonoBehaviour{
         float spawnXPosition = 0;
         for (int i = 0; i < columnPoolSize; i++){
             Column pooledObject = SpawnColumn();
-            spawnXPosition += 5f;
             pooledObject.transform.position = new Vector2(spawnXPosition, pooledObject.transform.position.y);
+            spawnXPosition += 5f;
         }
     }
     public Column SpawnColumn(){

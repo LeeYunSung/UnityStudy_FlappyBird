@@ -46,7 +46,6 @@ public class GameControl : MonoBehaviour
         else if (Instance != this) {
             Destroy(gameObject);
         }
-        Time.timeScale = 0;
         StartCoroutine(PrintStartText(1f));
     }
     public void BirdScored() {
@@ -60,6 +59,7 @@ public class GameControl : MonoBehaviour
         NotifiyScrollingObjectList();
     }
     IEnumerator PrintStartText(float waitTime){
+        Time.timeScale = 0;
         isPaused = true;
         int time = TIME;
         while (time>0){
