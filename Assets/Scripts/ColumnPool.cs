@@ -28,6 +28,7 @@ public class ColumnPool : MonoBehaviour{
 
         float spawnYPosition = UnityEngine.Random.Range(COLUMN_MIN, COLUMN_MAX);
         pooledObject.transform.position = new Vector2(XPOSITION, spawnYPosition);
+        pooledObject.Init();
 
         return pooledObject;
     }

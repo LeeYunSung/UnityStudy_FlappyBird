@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class GameControl : MonoBehaviour
-{ 
+public class GameControl : MonoBehaviour { 
     public static GameControl Instance { private set; get; }
 
     [SerializeField] private Text scoreText;
     [SerializeField] private Text startText;
     [SerializeField] private Text pauseText;
     [SerializeField] private Bird bird;
+    [SerializeField] private Booster booster;
 
     public GameObject gameOverText;
     public bool gameOver;
@@ -29,14 +29,19 @@ public class GameControl : MonoBehaviour
             scrollingObjectList.Add(scrollingObject);
         }
     }
-    public void RemoveScrollingObject(ScrollingObject scrollingObject) {
-        if (scrollingObjectList.Contains(scrollingObject)) {
-            scrollingObjectList.Remove(scrollingObject);
-        }
-    }
-    public void NotifiyScrollingObjectList() {
+    public void NotifiyGameOver() {
         foreach (ScrollingObject scrollingObject in scrollingObjectList) {
             scrollingObject.GameOver();
+        }
+    }
+    public void NotifyBoost() {
+        foreach (ScrollingObject scrollingObject in scrollingObjectList){
+            scrollingObject.SpeedUp();
+        }
+    }
+    public void NotifyBoostEnd(){
+        foreach (ScrollingObject scrollingObject in scrollingObjectList){
+            scrollingObject.SpeedDown();
         }
     }
     void Awake() {
@@ -56,7 +61,8 @@ public class GameControl : MonoBehaviour
         pauseText.gameObject.SetActive(false);
         gameOverText.SetActive(true);
         gameOver = true;
-        NotifiyScrollingObjectList();
+        NotifiyGameOver();
+        booster.StopBoostProcess();
     }
     IEnumerator PrintStartText(float waitTime){
         Time.timeScale = 0;
