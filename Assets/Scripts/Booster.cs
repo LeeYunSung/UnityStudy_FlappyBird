@@ -5,22 +5,22 @@ using UnityEngine.UI;
 
 public class Booster : MonoBehaviour
 {
-    [SerializeField] private Bird bird;
-    private const float MAXTIME = 10f;
-    public Image boosterImage;
+    [SerializeField] private Image boosterImage;
     [SerializeField] private GameObject boosterText;
+    [SerializeField] private Bird bird;
+
+    private const float MAXTIME = 10f;
     private float timeLeft;
 
     public void Start() {
         timeLeft = 0;
+        boosterText.SetActive(false);
         boosterImage.raycastTarget = false;
         boosterImage.gameObject.SetActive(false);
-        boosterImage.transform.GetComponent<Outline>().enabled = false;
+        gameObject.GetComponent<Animator>().enabled = false;
         StartCoroutine(ProcessTime());
     }
-    public void BoosterButton(){
-        boosterText.SetActive(false);
-        boosterImage.transform.GetComponent<Outline>().enabled = true;
+    public void BoosterButton() {
         StartCoroutine(Boost());
     }
     IEnumerator ProcessTime(){
@@ -30,19 +30,21 @@ public class Booster : MonoBehaviour
             boosterImage.fillAmount = timeLeft / MAXTIME;
             yield return new WaitForSeconds(Time.deltaTime);
         }
+        gameObject.GetComponent<Animator>().enabled = true;
         boosterText.SetActive(true);
         boosterImage.raycastTarget = true;
     }
     public void StopBoostProcess(){
         boosterImage.raycastTarget = false;
-        StopCoroutine(ProcessTime());
+        Time.timeScale = 0;
+        //StopCoroutine(ProcessTime());
     }
     IEnumerator Boost() {
-        bird.BirdTriggerOn();
+        bird.InvinibilityOn();
         GameControl.Instance.NotifyBoost();
         yield return new WaitForSeconds(5f);
         GameControl.Instance.NotifyBoostEnd();
-        bird.BirdTriggerOff();
+        bird.InvinibilityOff();
         Start();
     }
 }

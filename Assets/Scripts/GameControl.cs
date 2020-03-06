@@ -12,14 +12,16 @@ public class GameControl : MonoBehaviour {
     [SerializeField] private Text scoreText;
     [SerializeField] private Text startText;
     [SerializeField] private Text pauseText;
+    [SerializeField] private GameObject gameOverText;
+    [SerializeField] private Text restartText;
+
     [SerializeField] private Bird bird;
     [SerializeField] private Booster booster;
 
-    public GameObject gameOverText;
     public bool gameOver;
     public bool isPaused;
-
     public float scrollSpeed = -1.5f;
+
     private int score = 0;
     private const int TIME = 3;
 
@@ -83,11 +85,11 @@ public class GameControl : MonoBehaviour {
         if (isPaused == false && gameOver == false){
             bird.JumpBird();
         }
-        else if (gameOver == true){
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
     }
-    public void IsPause(){
+    public void RestartClick(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void PauseClick(){
         isPaused = !isPaused;
         Time.timeScale = (isPaused) ? 0.0f : 1.0f;
         pauseText.text = (!isPaused) ? "II" : "►";

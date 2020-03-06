@@ -18,6 +18,7 @@ public class Bird : MonoBehaviour
 
     public List<GameObject> birdLife;
     int lifeListIndex = 2;
+    bool isInvincibility = false;
 
     void Start(){
         render = GetComponent<SpriteRenderer>();
@@ -31,30 +32,45 @@ public class Bird : MonoBehaviour
         anim.SetTrigger(flapTriggerName);
     }
     private void OnCollisionEnter2D(Collision2D collision){
-        birdLife[lifeListIndex].SetActive(false);
-        if (lifeListIndex == 0){
-            anim.SetTrigger(dieTriggerName);
-            GameControl.Instance.BirdDied();
-            return;
+        if (!isInvincibility && collision.gameObject.GetComponent<Column>() != null){
+            birdLife[lifeListIndex].SetActive(false);
+            if (lifeListIndex == 0){
+                anim.SetTrigger(dieTriggerName);
+                GameControl.Instance.BirdDied();
+                return;
+            }
+            lifeListIndex--;
+            anim.SetTrigger(hurtTriggerName);
+            StartCoroutine(FlickeringBird(collision));
         }
-        lifeListIndex--;
-        anim.SetTrigger(hurtTriggerName);
-        StartCoroutine(FlickeringBird());
     }
-    IEnumerator FlickeringBird(){
-        BirdTriggerOn();
+    IEnumerator FlickeringBird(Collision2D collision)
+    {
+        InvinibilityOn();
+        //GameObject[] gameObjects;
+        //gameObjects = collision.gameObject.GetComponentsInChildren<GameObject>();
+        //foreach (GameObject column in gameObjects)
+        //{
+        //    column.transform.GetComponent<Collider2D>().enabled = false;
+        //}
         for (int i = 0; i < 4; i++){
             render.color = new Color(1f, 1f, 1f, .5f);
             yield return new WaitForSecondsRealtime(0.5f);
             render.color = new Color(1f, 1f, 1f, 1f);
             yield return new WaitForSecondsRealtime(0.5f);
         }
-        BirdTriggerOff();
+        //foreach (GameObject column in gameObjects)
+        //{
+        //    column.transform.GetComponent<Collider2D>().enabled = true;
+        //}
+        InvinibilityOff();
     }
-    public void BirdTriggerOn(){
+    public void InvinibilityOn(){
         collider.isTrigger = true;
+        isInvincibility = true;
     }
-    public void BirdTriggerOff(){
+    public void InvinibilityOff(){
         collider.isTrigger = false;
+        isInvincibility = false;
     }
 }

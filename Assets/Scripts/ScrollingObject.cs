@@ -16,7 +16,7 @@ public class ScrollingObject : MonoBehaviour
         rb2d.velocity = Vector2.zero;
     }
     public void SpeedUp(){
-        rb2d.velocity = new Vector2(GameControl.Instance.scrollSpeed * 3, 0);
+        rb2d.velocity = new Vector2(GameControl.Instance.scrollSpeed * 4, 0);
     }
     public void SpeedDown(){ 
         rb2d.velocity = new Vector2(GameControl.Instance.scrollSpeed, 0);

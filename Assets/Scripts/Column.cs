@@ -24,5 +24,4 @@ public class Column : MonoBehaviour {
             GameControl.Instance.GetComponent<ColumnPool>().Despawn(this);
         }
     }
-
 }

@@ -1,22 +1,20 @@
 ﻿<Properties StartupConfiguration="{E3EF6E53-88BE-20EB-65C7-C65330B49779}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ScrollingObject.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameControl.cs">
     <Files>
-      <File FileName="Assets/Scripts/RepeatingBackground.cs" Line="22" Column="2" IsPinned="True" />
-      <File FileName="Assets/Scripts/Bird.cs" Line="47" Column="15" IsPinned="True" />
-      <File FileName="Assets/Scripts/BoosterControl.cs" Line="43" Column="42" />
-      <File FileName="Assets/Scripts/Column.cs" Line="11" Column="24" />
-      <File FileName="Assets/Scripts/ColumnPool.cs" Line="21" Column="36" />
-      <File FileName="Assets/Scripts/ScrollingObject.cs" Line="17" Column="6" />
-      <File FileName="Assets/Scripts/GameControl.cs" Line="25" Column="1" NotebookId="1" />
+      <File FileName="Assets/Scripts/RepeatingBackground.cs" Line="16" Column="10" IsPinned="True" />
+      <File FileName="Assets/Scripts/Bird.cs" Line="33" Column="6" IsPinned="True" />
+      <File FileName="Assets/Scripts/ColumnPool.cs" Line="19" Column="50" />
+      <File FileName="Assets/Scripts/ScrollingObject.cs" Line="10" Column="55" />
+      <File FileName="Assets/Scripts/GameControl.cs" Line="97" Column="24" NotebookId="1" />
+      <File FileName="Assets/Scripts/Booster.cs" Line="38" Column="28" NotebookId="1" />
+      <File FileName="Assets/Scripts/Column.cs" Line="25" Column="10" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="19c945e7-98c8-4663-ba37-25afc42b2691" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="937ccda2-8a48-478e-81a8-0024818051f3" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/yoon/Desktop/UnityTutorial/FlappyBird/Assets/Scripts/Column.cs" relfile="Assets/Scripts/Column.cs" line="19" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>
