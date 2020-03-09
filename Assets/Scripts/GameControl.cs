@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class GameControl : MonoBehaviour { 
     public static GameControl Instance { private set; get; }
@@ -13,7 +12,6 @@ public class GameControl : MonoBehaviour {
     [SerializeField] private Text startText;
     [SerializeField] private Text pauseText;
     [SerializeField] private GameObject gameOverText;
-    [SerializeField] private Text restartText;
 
     [SerializeField] private Bird bird;
     [SerializeField] private Booster booster;

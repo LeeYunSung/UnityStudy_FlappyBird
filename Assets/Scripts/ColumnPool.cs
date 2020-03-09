@@ -6,6 +6,7 @@ using UnityEngine;
 public class ColumnPool : MonoBehaviour{
     [SerializeField] private Column columnPrefabs;
     [SerializeField] private int columnPoolSize = 5;
+    [SerializeField] private GameObject columns;
 
     private const float COLUMN_MIN = -2f;
     private const float COLUMN_MAX = 2f;
@@ -36,6 +37,8 @@ public class ColumnPool : MonoBehaviour{
         pooledObjects.Enqueue(column);
     }
     public Column MakeColumn(){
-        return Instantiate(columnPrefabs);
+        Column column = Instantiate(columnPrefabs);
+        column.transform.parent = columns.transform;
+        return column;
     }
 }

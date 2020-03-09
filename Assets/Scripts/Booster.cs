@@ -7,7 +7,6 @@ public class Booster : MonoBehaviour
 {
     [SerializeField] private Image boosterImage;
     [SerializeField] private GameObject boosterText;
-    [SerializeField] private Bird bird;
 
     private const float MAXTIME = 10f;
     private float timeLeft;
@@ -37,14 +36,13 @@ public class Booster : MonoBehaviour
     public void StopBoostProcess(){
         boosterImage.raycastTarget = false;
         Time.timeScale = 0;
-        //StopCoroutine(ProcessTime());
     }
     IEnumerator Boost() {
-        bird.InvinibilityOn();
         GameControl.Instance.NotifyBoost();
+        Column.NotifyTriggerOn();
         yield return new WaitForSeconds(5f);
         GameControl.Instance.NotifyBoostEnd();
-        bird.InvinibilityOff();
+        Column.NotifyTriggerOff();
         Start();
     }
 }
