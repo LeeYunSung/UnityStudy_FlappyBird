@@ -495,7 +495,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &371703046
 RectTransform:
   m_ObjectHideFlags: 0
@@ -771,7 +771,6 @@ GameObject:
   - component: {fileID: 598991062}
   - component: {fileID: 598991061}
   - component: {fileID: 598991060}
-  - component: {fileID: 598991063}
   - component: {fileID: 598991066}
   m_Layer: 5
   m_Name: PauseText
@@ -854,18 +853,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 598991058}
   m_CullTransparentMesh: 0
---- !u!114 &598991063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 598991058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 034a3cb9481134e9a9736daa51c6b37a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &598991066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -928,6 +915,7 @@ GameObject:
   - component: {fileID: 769346110}
   - component: {fileID: 769346109}
   - component: {fileID: 769346111}
+  - component: {fileID: 769346112}
   m_Layer: 0
   m_Name: Booster
   m_TagString: Untagged
@@ -949,6 +937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boosterImage: {fileID: 1151781592}
   boosterText: {fileID: 371703045}
+  bird: {fileID: 1427662358}
 --- !u!224 &769346110
 RectTransform:
   m_ObjectHideFlags: 0
@@ -989,6 +978,35 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &769346112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769346108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 769346109}
+          m_MethodName: BoosterButton
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  delegates: []
 --- !u!1 &1004566894
 GameObject:
   m_ObjectHideFlags: 0
@@ -1068,7 +1086,6 @@ GameObject:
   - component: {fileID: 1151781592}
   - component: {fileID: 1151781591}
   - component: {fileID: 1151781590}
-  - component: {fileID: 1151781594}
   m_Layer: 5
   m_Name: BoosterImage
   m_TagString: Untagged
@@ -1117,7 +1134,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1151781587}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1573420865, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -1160,35 +1177,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1151781587}
   m_CullTransparentMesh: 0
---- !u!114 &1151781594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1151781587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 769346109}
-          m_MethodName: BoosterButton
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  delegates: []
 --- !u!1 &1259017222
 GameObject:
   m_ObjectHideFlags: 0
@@ -2412,7 +2400,6 @@ MonoBehaviour:
   booster: {fileID: 769346109}
   gameOver: 0
   isPaused: 0
-  scrollSpeed: -1.5
 --- !u!4 &1999004488
 Transform:
   m_ObjectHideFlags: 0

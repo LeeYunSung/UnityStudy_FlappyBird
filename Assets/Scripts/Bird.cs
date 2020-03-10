@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Bird : MonoBehaviour
 {
@@ -18,12 +16,22 @@ public class Bird : MonoBehaviour
     public List<GameObject> birdLife;
     int lifeListIndex = 2;
 
-    bool isInvincibility = false;
+    private bool isInvincibility = false;
 
     void Start(){
         render = GetComponent<SpriteRenderer>();
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+    }
+    private void Update(){
+        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+        if (transform.position.x < 0){
+            transform.position = new Vector2(0, transform.position.y);
+        }
+        else if(pos.y > 1f){
+            pos.y = 1f;
+            transform.position = Camera.main.ViewportToWorldPoint(pos);
+        }
     }
     public void JumpBird(){
         rb2d.velocity = Vector2.zero;
@@ -38,21 +46,27 @@ public class Bird : MonoBehaviour
                 GameControl.Instance.BirdDied();
                 return;
             }
-            lifeListIndex--;
             anim.SetTrigger(hurtTriggerName);
+            lifeListIndex--;
             StartCoroutine(FlickeringBird());
         }
     }
     IEnumerator FlickeringBird() {
-        isInvincibility = true;
-        Column.NotifyTriggerOn();
+        SuperBirdOn();
         for (int i = 0; i < 4; i++){
             render.color = new Color(1f, 1f, 1f, .5f);
             yield return new WaitForSecondsRealtime(0.5f);
             render.color = new Color(1f, 1f, 1f, 1f);
             yield return new WaitForSecondsRealtime(0.5f);
         }
-        Column.NotifyTriggerOff();
+        SuperBirdOff();
+    }
+    public void SuperBirdOn(){
+        isInvincibility = true;
+        Column.TriggerOn();
+    }
+    public void SuperBirdOff(){
+        Column.TriggerOff();
         isInvincibility = false;
     }
 }

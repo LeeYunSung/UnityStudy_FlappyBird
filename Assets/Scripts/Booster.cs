@@ -7,42 +7,46 @@ public class Booster : MonoBehaviour
 {
     [SerializeField] private Image boosterImage;
     [SerializeField] private GameObject boosterText;
+    [SerializeField] private Bird bird;
 
-    private const float MAXTIME = 10f;
+    private const float MAXTIME = 5f;
     private float timeLeft;
+    public static bool isBoost = false;
 
     public void Start() {
         timeLeft = 0;
         boosterText.SetActive(false);
-        boosterImage.raycastTarget = false;
-        boosterImage.gameObject.SetActive(false);
         gameObject.GetComponent<Animator>().enabled = false;
         StartCoroutine(ProcessTime());
     }
     public void BoosterButton() {
-        StartCoroutine(Boost());
+        if (isBoost){
+            isBoost = false;
+            StartCoroutine(Boost());
+        }
+        else GameControl.Instance.BackgroundClick();
     }
     IEnumerator ProcessTime(){
-        while (timeLeft<10){
+        while (timeLeft< MAXTIME){
             boosterImage.gameObject.SetActive(true);
             timeLeft += Time.deltaTime;
             boosterImage.fillAmount = timeLeft / MAXTIME;
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        gameObject.GetComponent<Animator>().enabled = true;
+        isBoost = true;
         boosterText.SetActive(true);
-        boosterImage.raycastTarget = true;
+        gameObject.GetComponent<Animator>().enabled = true;
     }
-    public void StopBoostProcess(){
-        boosterImage.raycastTarget = false;
+    public void StopBoost(){
+       // StopCoroutine(ProcessTime());
         Time.timeScale = 0;
     }
     IEnumerator Boost() {
-        GameControl.Instance.NotifyBoost();
-        Column.NotifyTriggerOn();
-        yield return new WaitForSeconds(5f);
-        GameControl.Instance.NotifyBoostEnd();
-        Column.NotifyTriggerOff();
+        bird.SuperBirdOn();
+        ScrollingObject.SpeedUp();
+        yield return new WaitForSecondsRealtime(5f);
+        ScrollingObject.SpeedDown();
+        bird.SuperBirdOff();
         Start();
     }
 }

@@ -5,20 +5,35 @@ using UnityEngine;
 public class ScrollingObject : MonoBehaviour
 {
     private Rigidbody2D rb2d;
+    public static List<ScrollingObject> ScrollingObjectList = new List<ScrollingObject>();
+    public const float SCROLLINGSPEED = -1.5f;
+    public const float WEIGHT = 5;
+    private static float speed = SCROLLINGSPEED;
 
     void Start(){
-        GameControl.Instance.AddScrollingObject(this);
-
+        ScrollingObjectList.Add(this);
         rb2d = GetComponent<Rigidbody2D>();
-        rb2d.velocity = new Vector2(GameControl.Instance.scrollSpeed, 0);
+        rb2d.velocity = new Vector2(speed, 0);
     }
-    public void GameOver(){
-        rb2d.velocity = Vector2.zero;
+    public static void GameOver(){
+        foreach (ScrollingObject scrolling in ScrollingObjectList){          
+            scrolling.rb2d.velocity = Vector2.zero;
+        }
     }
-    public void SpeedUp(){
-        rb2d.velocity = new Vector2(GameControl.Instance.scrollSpeed * 4, 0);
+    public static void SpeedUp() {
+        speed = SCROLLINGSPEED * WEIGHT;
+        ChangeVelocity();
     }
-    public void SpeedDown(){ 
-        rb2d.velocity = new Vector2(GameControl.Instance.scrollSpeed, 0);
+    public static void SpeedDown(){
+        speed = SCROLLINGSPEED;
+        ChangeVelocity();
+    }
+    private static void ChangeVelocity(){
+        foreach (ScrollingObject scrolling in ScrollingObjectList) {
+            scrolling.rb2d.velocity = new Vector2(speed, 0);
+        }
+    }
+    private void OnDestroy(){
+        ScrollingObjectList.Clear();
     }
 }

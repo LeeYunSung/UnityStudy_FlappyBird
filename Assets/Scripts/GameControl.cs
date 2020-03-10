@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,32 +17,10 @@ public class GameControl : MonoBehaviour {
 
     public bool gameOver;
     public bool isPaused;
-    public float scrollSpeed = -1.5f;
 
     private int score = 0;
     private const int TIME = 3;
 
-    List<ScrollingObject> scrollingObjectList = new List<ScrollingObject>();
-    public void AddScrollingObject(ScrollingObject scrollingObject) {
-        if (!scrollingObjectList.Contains(scrollingObject)) {
-            scrollingObjectList.Add(scrollingObject);
-        }
-    }
-    public void NotifiyGameOver() {
-        foreach (ScrollingObject scrollingObject in scrollingObjectList) {
-            scrollingObject.GameOver();
-        }
-    }
-    public void NotifyBoost() {
-        foreach (ScrollingObject scrollingObject in scrollingObjectList){
-            scrollingObject.SpeedUp();
-        }
-    }
-    public void NotifyBoostEnd(){
-        foreach (ScrollingObject scrollingObject in scrollingObjectList){
-            scrollingObject.SpeedDown();
-        }
-    }
     void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -61,8 +38,7 @@ public class GameControl : MonoBehaviour {
         pauseText.gameObject.SetActive(false);
         gameOverText.SetActive(true);
         gameOver = true;
-        NotifiyGameOver();
-        booster.StopBoostProcess();
+        booster.StopBoost();
     }
     IEnumerator PrintStartText(float waitTime){
         Time.timeScale = 0;
@@ -89,7 +65,7 @@ public class GameControl : MonoBehaviour {
     }
     public void PauseClick(){
         isPaused = !isPaused;
-        Time.timeScale = (isPaused) ? 0.0f : 1.0f;
+        Time.timeScale = (isPaused) ? 0f : 1f;
         pauseText.text = (!isPaused) ? "II" : "►";
         if (!isPaused){
             startText.gameObject.SetActive(true);

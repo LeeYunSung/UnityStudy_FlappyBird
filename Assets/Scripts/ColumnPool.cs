@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ public class ColumnPool : MonoBehaviour{
 
     private const float COLUMN_MIN = -2f;
     private const float COLUMN_MAX = 2f;
-    const float XPOSITION = 20f;
+    float XPOSITION;
  
     public Queue<Column> pooledObjects;
     
@@ -22,6 +21,7 @@ public class ColumnPool : MonoBehaviour{
             pooledObject.transform.position = new Vector2(spawnXPosition, pooledObject.transform.position.y);
             spawnXPosition += 5f;
         }
+        XPOSITION = spawnXPosition - 5f;
     }
     public Column SpawnColumn(){
         Column pooledObject;

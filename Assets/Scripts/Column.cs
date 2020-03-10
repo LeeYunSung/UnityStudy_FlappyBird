@@ -30,13 +30,13 @@ public class Column : MonoBehaviour {
             GameControl.Instance.GetComponent<ColumnPool>().Despawn(this);
         }
     }
-    public static void NotifyTriggerOn(){
+    public static void TriggerOn(){
         foreach (Column column in columnList){
             column.collider1.isTrigger = true;
             column.collider2.isTrigger = true;
         }
     }
-    public static void NotifyTriggerOff(){
+    public static void TriggerOff(){
         foreach (Column column in columnList){
             column.collider1.isTrigger = false;
             column.collider2.isTrigger = false;

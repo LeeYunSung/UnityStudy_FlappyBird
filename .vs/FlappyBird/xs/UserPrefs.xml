@@ -1,18 +1,18 @@
 ﻿<Properties StartupConfiguration="{E3EF6E53-88BE-20EB-65C7-C65330B49779}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameControl.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Bird.cs">
     <Files>
-      <File FileName="Assets/Scripts/RepeatingBackground.cs" Line="16" Column="10" IsPinned="True" />
-      <File FileName="Assets/Scripts/Bird.cs" Line="38" Column="30" IsPinned="True" />
-      <File FileName="Assets/Scripts/ColumnPool.cs" Line="40" Column="27" />
-      <File FileName="Assets/Scripts/ScrollingObject.cs" Line="19" Column="48" />
-      <File FileName="Assets/Scripts/Booster.cs" Line="38" Column="9" />
-      <File FileName="Assets/Scripts/GameControl.cs" Line="89" Column="6" NotebookId="1" />
-      <File FileName="Assets/Scripts/Column.cs" Line="20" Column="32" NotebookId="1" />
+      <File FileName="Assets/Scripts/RepeatingBackground.cs" Line="12" Column="6" IsPinned="True" />
+      <File FileName="Assets/Scripts/Bird.cs" Line="8" Column="30" IsPinned="True" />
+      <File FileName="Assets/Scripts/ScrollingObject.cs" Line="11" Column="49" />
+      <File FileName="Assets/Scripts/Booster.cs" Line="18" Column="38" />
+      <File FileName="Assets/Scripts/ColumnPool.cs" Line="12" Column="33" />
+      <File FileName="Assets/Scripts/GameControl.cs" Line="48" Column="37" NotebookId="1" />
+      <File FileName="Assets/Scripts/Column.cs" Line="45" Column="1" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="10a70fb7-e2ed-4f82-b478-1db4d2a689aa" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="81c11a23-771e-472e-9d30-287760c0089b" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
