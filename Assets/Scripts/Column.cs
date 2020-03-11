@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Column : MonoBehaviour {
-
     [SerializeField] private Collider2D collider1;
     [SerializeField] private Collider2D collider2;
 
     bool isUsed = false;
-    public static List<Column> columnList = new List<Column>();
+    public static List<Column> columnList = new List<Column>();//현재 활성화 되어 있는 Column들
+    public static Column lastColumn;
 
     public void Init() {
         isUsed = false;
         columnList.Add(this);
+        lastColumn = this;
     }
     private void OnTriggerEnter2D(Collider2D collision) {
         if (!isUsed && collision.GetComponent<Bird>() != null) {
@@ -24,7 +25,7 @@ public class Column : MonoBehaviour {
     }
     IEnumerator Exchange() {
         if (GameControl.Instance.gameOver != true) {
-            GameControl.Instance.GetComponent<ColumnPool>().SpawnColumn();
+            GameControl.Instance.GetComponent<ColumnPool>().SpawnColumn(lastColumn.transform.position.x);
             yield return new WaitForSeconds(5f);
             columnList.Remove(this);
             GameControl.Instance.GetComponent<ColumnPool>().Despawn(this);
@@ -43,6 +44,6 @@ public class Column : MonoBehaviour {
         }
     }
     private void OnDestroy(){
-        columnList.Clear();
+        columnList.Remove(this);
     }
 }

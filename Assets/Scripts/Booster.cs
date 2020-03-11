@@ -38,15 +38,16 @@ public class Booster : MonoBehaviour
         gameObject.GetComponent<Animator>().enabled = true;
     }
     public void StopBoost(){
-       // StopCoroutine(ProcessTime());
-        Time.timeScale = 0;
+        StopCoroutine(ProcessTime());
+        //Time.timeScale = 0;
     }
     IEnumerator Boost() {
-        bird.SuperBirdOn();
+        Bird.isBoost = true;
+        bird.SuperTimeAdd(5f);
         ScrollingObject.SpeedUp();
         yield return new WaitForSecondsRealtime(5f);
         ScrollingObject.SpeedDown();
-        bird.SuperBirdOff();
+        Bird.isBoost = false;
         Start();
     }
 }

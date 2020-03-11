@@ -38,6 +38,7 @@ public class GameControl : MonoBehaviour {
         pauseText.gameObject.SetActive(false);
         gameOverText.SetActive(true);
         gameOver = true;
+        ScrollingObject.GameOver();
         booster.StopBoost();
     }
     IEnumerator PrintStartText(float waitTime){
