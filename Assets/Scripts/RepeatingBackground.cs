@@ -20,3 +20,4 @@ public class RepeatingBackground : MonoBehaviour
         transform.position = (Vector2)transform.position + groundOffset;
     }
 }
+

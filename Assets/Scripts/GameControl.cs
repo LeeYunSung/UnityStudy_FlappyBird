@@ -7,13 +7,16 @@ using UnityEngine.UI;
 public class GameControl : MonoBehaviour { 
     public static GameControl Instance { private set; get; }
 
-    [SerializeField] private Text scoreText;
     [SerializeField] private Text startText;
     [SerializeField] private Text pauseText;
-    [SerializeField] private GameObject gameOverText;
 
     [SerializeField] private Bird bird;
     [SerializeField] private Booster booster;
+
+    [SerializeField] private Text scoreText;
+    [SerializeField] private Text highScoreText;
+
+    [SerializeField] private GameObject gameOverView;
 
     public bool gameOver;
     public bool isPaused;
@@ -29,14 +32,16 @@ public class GameControl : MonoBehaviour {
             Destroy(gameObject);
         }
         StartCoroutine(PrintStartText(1f));
+        highScoreText.text = "";
     }
     public void BirdScored() {
         score += 10;
         scoreText.text = "Score: " + score.ToString();
     }
     public void BirdDied() {
+        SaveScore();
         pauseText.gameObject.SetActive(false);
-        gameOverText.SetActive(true);
+        gameOverView.SetActive(true);
         gameOver = true;
         ScrollingObject.GameOver();
         booster.StopBoost();
@@ -72,6 +77,38 @@ public class GameControl : MonoBehaviour {
             startText.gameObject.SetActive(true);
             pauseText.gameObject.SetActive(false);
             StartCoroutine(PrintStartText(1f));
+        }
+    }
+    public void SaveScore(){
+        if (!PlayerPrefs.HasKey("Score")){
+            highScoreText.text = score.ToString();
+            PlayerPrefs.SetString("Score", score.ToString());
+            PlayerPrefs.Save();
+            return;
+        }
+        string scoreString = PlayerPrefs.GetString("Score") + '\n' + score.ToString();
+        PlayerPrefs.SetString("Score", scoreString);
+        PlayerPrefs.Save();
+
+        string[] scores = PlayerPrefs.GetString("Score").Split('\n');
+        int[] highScore = new int[scores.Length];
+        for (int i = 0; i < highScore.Length; i++){
+            highScore[i] = int.Parse(scores[i]);
+        }
+        for (int i = 0; i < scores.Length - 1; i++){
+            for (int j = i + 1; j < scores.Length; j++){
+                if (highScore[i] < highScore[j]){
+                    int temp = highScore[i];
+                    highScore[i] = highScore[j];
+                    highScore[j] = temp;
+                }
+            }
+        }
+        for (int i = 0; i < scores.Length; i++) {
+            if (i > 4) {
+                break;
+            }
+            highScoreText.text += highScore[i] + "\n";
         }
     }
 }

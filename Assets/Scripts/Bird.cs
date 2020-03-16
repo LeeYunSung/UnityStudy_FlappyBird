@@ -12,18 +12,20 @@ public class Bird : MonoBehaviour
     private const string hurtTriggerName = "Hurt";
     private const string dieTriggerName = "Die";
     private const string boostTriggerName = "Booster";
+    private const string boostBoolName = "BoostOn";
 
-    public List<GameObject> birdLife;
+    [SerializeField] private List<GameObject> birdLife;
     int lifeListIndex = 2;
 
     private float superTime = 0f;
-    public static bool isBoost = false;
+    Coroutine runningCoroutine = null;
 
     void Start(){
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
     private void Update(){
+        //ㅅㅐ position fix
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
         if (transform.position.x < 0){
             transform.position = new Vector2(0, transform.position.y);
@@ -39,31 +41,40 @@ public class Bird : MonoBehaviour
         anim.SetTrigger(flapTriggerName);
     }
     private void OnCollisionEnter2D(Collision2D collision){
-        if (superTime == 0 && collision.transform.GetComponent<Collider2D>() != null){
+        if (superTime <= 0 && collision.transform.GetComponent<Collider2D>() != null){
             birdLife[lifeListIndex].SetActive(false);
+            //Die
             if (lifeListIndex == 0){
                 anim.SetTrigger(dieTriggerName);
                 GameControl.Instance.BirdDied();
                 return;
             }
+            //Hurt
             anim.SetTrigger(hurtTriggerName);
             SuperTimeAdd(2f);
             lifeListIndex--;
         }
     }
-    IEnumerator SuperMode() {
-        if (isBoost){
-            anim.SetTrigger(boostTriggerName);
-        }
-        while (superTime > 0){
+    //Hurt(2f), Boost(5f)
+    IEnumerator SuperMode(){
+        while (superTime >= 0){
             Column.TriggerOn();
-            yield return new WaitForSecondsRealtime(1f);
-            superTime -= 1;
+            yield return null;
+            superTime -= Time.deltaTime;
         }
         Column.TriggerOff();
+        runningCoroutine = null;
+        anim.SetBool(boostBoolName, false);
     }
+    //Super Time add
     public void SuperTimeAdd(float time){
         superTime = time;
-        StartCoroutine(SuperMode());
+        if (runningCoroutine == null){
+            runningCoroutine = StartCoroutine(SuperMode());
+        }
+    }
+    public void isBoost(){
+        anim.SetBool(boostBoolName, true);
+        SuperTimeAdd(5f);
     }
 }
